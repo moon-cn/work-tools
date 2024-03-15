@@ -1,0 +1,32 @@
+name: Maven Package And Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 
+      uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+
+    - name: Build with Maven
+      run: mvn -B -q package --file pom.xml
+      
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          main/target/*.exe
+          main/target/*.jar
+
