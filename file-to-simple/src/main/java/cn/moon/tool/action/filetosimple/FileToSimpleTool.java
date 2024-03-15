@@ -19,14 +19,9 @@ public class FileToSimpleTool implements Tool {
     }
 
     @Override
-    public String getId() {
-        return "file-to-simple";
-    }
-
-    @Override
     public void show() {
-        JFrame newFrame = new JFrame("新窗体1");
-        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        JFrame frame = new JFrame("新窗体1");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 
         // 创建面板
@@ -57,10 +52,10 @@ public class FileToSimpleTool implements Tool {
             }
         });
 
-        newFrame.add(panel);
-
-        newFrame.setSize(200, 150);
-        newFrame.setVisible(true);
+        frame.add(panel);
+        frame.setLocationRelativeTo(null);
+        frame.setSize(300, 150);
+        frame.setVisible(true);
     }
 
 

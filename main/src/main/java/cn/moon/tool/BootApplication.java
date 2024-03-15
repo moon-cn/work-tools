@@ -13,7 +13,7 @@ public class BootApplication {
 
     public static void main(String[] args) throws InstantiationException, IllegalAccessException {
         // 创建主窗口
-        JFrame frame = new JFrame("功能按钮应用");
+        JFrame frame = new JFrame(Constants.APP_NAME);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // 创建面板
@@ -38,7 +38,8 @@ public class BootApplication {
         frame.getContentPane().add(panel);
 
         // 设置窗口大小并显示
-        frame.setSize(300, 200);
+        frame.setSize(600, 400);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 

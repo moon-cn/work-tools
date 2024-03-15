@@ -5,7 +5,7 @@
     <parent>
         <artifactId>work-tools</artifactId>
         <groupId>cn.moon</groupId>
-        <version>0.0.1</version>
+        <version>0.0.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>cn.moon</groupId>
             <artifactId>base</artifactId>
-            <version>0.0.1</version>
+            <version>0.0.2</version>
         </dependency>
     </dependencies>
 </project>
