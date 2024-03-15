@@ -1,6 +1,6 @@
 package cn.moon;
 
-public interface Tool {
+public interface WorkTool {
 
     String getName();
 

@@ -3,7 +3,7 @@ package cn.moon.tool;
 
 import cn.hutool.core.util.ClassUtil;
 import cn.moon.Constants;
-import cn.moon.Tool;
+import cn.moon.WorkTool;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -19,7 +19,7 @@ public class BootApplication {
         // 创建面板
         JPanel panel = new JPanel();
 
-        for (Tool tool : tools()) {
+        for (WorkTool tool : tools()) {
             JButton btn = new JButton(tool.getName());
 
             btn.addActionListener(new AbstractAction() {
@@ -43,12 +43,12 @@ public class BootApplication {
         frame.setVisible(true);
     }
 
-    private static List<Tool> tools() throws InstantiationException, IllegalAccessException {
-        Set<Class<?>> clsList = ClassUtil.scanPackageBySuper(Constants.BASE_PACKAGE, Tool.class);
+    private static List<WorkTool> tools() throws InstantiationException, IllegalAccessException {
+        Set<Class<?>> clsList = ClassUtil.scanPackageBySuper(Constants.BASE_PACKAGE, WorkTool.class);
 
-        List<Tool> list = new ArrayList<>();
+        List<WorkTool> list = new ArrayList<>();
         for (Class<?> cls : clsList) {
-            Tool o = (Tool) cls.newInstance();
+            WorkTool o = (WorkTool) cls.newInstance();
             list.add(o);
         }
         return list;

@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
-            <artifactId>hutool-extra</artifactId>
+            <artifactId>hutool-http</artifactId>
             <version>5.8.25</version>
         </dependency>
         <dependency>

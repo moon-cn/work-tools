@@ -1,7 +1,7 @@
 package cn.moon.tool.action.filetosimple;
 
 
-import cn.moon.Tool;
+import cn.moon.WorkTool;
 import cn.moon.lang.web.Result;
 import com.github.houbb.opencc4j.util.ZhConverterUtil;
 
@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 
 // 繁体文件名转简体
-public class FileToSimpleTool implements Tool {
+public class FileToSimpleTool implements WorkTool {
 
     @Override
     public String getName() {

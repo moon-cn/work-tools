@@ -1,7 +1,7 @@
 package cn.moon.tool;
 
 
-import cn.moon.Tool;
+import cn.moon.WorkTool;
 import lombok.SneakyThrows;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class PDFToJPGTool implements Tool {
+public class PDFToJPGTool implements WorkTool {
 
     @Override
     public String getName() {
