@@ -5,6 +5,6 @@ public interface WorkTool {
     String getName();
 
 
-    void show();
+    void onToolBtnClick();
 
 }

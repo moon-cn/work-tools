@@ -1,13 +1,19 @@
 package cn.moon.tool;
 
 
+import cn.hutool.core.io.file.FileNameUtil;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.http.HttpUtil;
 import cn.moon.WorkTool;
 import com.sun.corba.se.spi.orbutil.threadpool.Work;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.File;
 
+@Slf4j
 public class WallpaperTool implements WorkTool {
     @Override
     public String getName() {
@@ -15,35 +21,26 @@ public class WallpaperTool implements WorkTool {
     }
 
     @Override
-    public void show() {
-        JFrame frame = new JFrame("壁纸");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-// http://www.netbian.com/
+    public void onToolBtnClick() {
+        Integer i = RandomUtil.randomInt(1, 5);
+        String url = "http://moon.soulsoup.cn/wallpaper/" + i + ".jpg";
 
-        // 创建面板
-        JPanel panel = new JPanel();
 
-        JButton button = new JButton("随机壁纸");
-        panel.add(button);
-
-        button.addActionListener(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setWallpaper();
-            }
-        });
-
-        frame.add(panel);
-        frame.setLocationRelativeTo(null);
-        frame.setSize(300, 150);
-        frame.setVisible(true);
+        File destFile = download(url);
+        WallpaperChanger.setWallpaper(destFile);
+        log.info("设置壁纸 {}", destFile.getAbsoluteFile());
     }
 
-    public void setWallpaper(){
-        // http://www.netbian.com/down.php?id=33359&type=1
-        String imagePath = "C:\\dev\\2.jpg";
+    public static File download(String path) {
+        log.info("下载壁纸 {}", path);
+        File destFile = new File("月神的壁纸", FileNameUtil.getName(path));
 
-        WallpaperChanger.setWallpaper(imagePath);
+        if (destFile.exists()) {
+            log.info("壁纸下载过，不再下载");
+            return destFile;
+        }
 
+        HttpUtil.downloadFile(path, destFile);
+        return destFile;
     }
 }

@@ -22,7 +22,7 @@ public class PDFToJPGTool implements WorkTool {
     }
 
     @Override
-    public void show() {
+    public void onToolBtnClick() {
         JFrame frame = new JFrame("新窗体1");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
