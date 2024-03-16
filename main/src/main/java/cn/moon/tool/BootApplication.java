@@ -1,17 +1,19 @@
 package cn.moon.tool;
 
 
-import cn.hutool.core.util.ClassUtil;
-import cn.moon.Constants;
-import cn.moon.WorkTool;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.util.*;
+import com.github.weisj.darklaf.LafManager;
+import com.github.weisj.darklaf.theme.DarculaTheme;
+import com.github.weisj.darklaf.theme.IntelliJTheme;
 
 public class BootApplication {
 
     public static void main(String[] args) throws InstantiationException, IllegalAccessException {
+
+
+
+        LafManager.setTheme(new DarculaTheme());
+        LafManager.install();
+
         MainFrame frame = new MainFrame();
         frame.setSize(600, 400);
         frame.setLocationRelativeTo(null);
