@@ -3,6 +3,7 @@ package cn.moon.tool;
 
 import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.http.HttpException;
 import cn.hutool.http.HttpUtil;
 import cn.moon.WorkTool;
 import com.sun.corba.se.spi.orbutil.threadpool.Work;
@@ -22,13 +23,15 @@ public class WallpaperTool implements WorkTool {
 
     @Override
     public void onToolBtnClick() {
-        Integer i = RandomUtil.randomInt(1, 5);
+        Integer i = RandomUtil.randomInt(1, 105);
         String url = "http://moon.soulsoup.cn/wallpaper/" + i + ".jpg";
 
 
         File destFile = download(url);
-        WallpaperChanger.setWallpaper(destFile);
-        log.info("设置壁纸 {}", destFile.getAbsoluteFile());
+        if(destFile != null){
+            WallpaperChanger.setWallpaper(destFile);
+            log.info("设置壁纸 {}", destFile.getAbsoluteFile());
+        }
     }
 
     public static File download(String path) {
@@ -40,7 +43,13 @@ public class WallpaperTool implements WorkTool {
             return destFile;
         }
 
-        HttpUtil.downloadFile(path, destFile);
+        try {
+            HttpUtil.downloadFile(path, destFile);
+        }catch (HttpException e){
+            log.error(e.getMessage());
+            return null;
+        }
+
         return destFile;
     }
 }
