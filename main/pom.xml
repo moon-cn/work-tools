@@ -38,6 +38,12 @@
             <version>0.0.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>cn.moon</groupId>
+            <artifactId>web-to-app</artifactId>
+            <version>0.0.2</version>
+        </dependency>
+
 
 
     </dependencies>
