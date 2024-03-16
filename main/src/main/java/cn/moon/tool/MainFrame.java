@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -19,8 +20,7 @@ public class MainFrame extends JFrame {
         setTitle(Constants.APP_NAME);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // 创建面板
-        JPanel toolPanel = new JPanel();
+        JPanel menuPanel = new JPanel();
 
         for (WorkTool tool : tools()) {
             JButton btn = new JButton(tool.getName());
@@ -31,9 +31,10 @@ public class MainFrame extends JFrame {
                 }
             });
 
-            toolPanel.add(btn);
+            menuPanel.add(btn);
         }
-        getContentPane().add(toolPanel, BorderLayout.NORTH);
+        menuPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        getContentPane().add(menuPanel, BorderLayout.NORTH);
 
 
         // 显示
@@ -62,8 +63,8 @@ public class MainFrame extends JFrame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
+        list.sort(Comparator.comparing(WorkTool::getName));
         return list;
     }
 

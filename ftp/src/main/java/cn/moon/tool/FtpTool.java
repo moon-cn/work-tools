@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FtpTool implements WorkTool {
     @Override
     public String getName() {
-        return "FTP文件共享";
+        return "FTP局域网文件共享";
     }
 
     @Override
