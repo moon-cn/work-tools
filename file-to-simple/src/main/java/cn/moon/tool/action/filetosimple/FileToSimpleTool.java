@@ -15,7 +15,7 @@ public class FileToSimpleTool implements WorkTool {
 
     @Override
     public String getName() {
-        return "繁体文件名转简体";
+        return "文件名繁体转简体";
     }
 
     @Override
