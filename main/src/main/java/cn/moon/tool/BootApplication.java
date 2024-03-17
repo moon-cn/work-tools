@@ -1,9 +1,12 @@
 package cn.moon.tool;
 
 
+import cn.hutool.http.HttpUtil;
 import com.github.weisj.darklaf.LafManager;
 import com.github.weisj.darklaf.theme.DarculaTheme;
 import com.github.weisj.darklaf.theme.IntelliJTheme;
+
+import java.util.List;
 
 public class BootApplication {
 
@@ -15,14 +18,16 @@ public class BootApplication {
         LafManager.install();
 
         MainFrame frame = new MainFrame();
-        frame.setSize(600, 400);
+        frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
 
-        // 控制台输出示例
-        System.out.println("系统启动");
     }
+
+
+
+
 
 
 }
