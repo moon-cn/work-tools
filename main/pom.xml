@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>cn.moon</groupId>
-            <artifactId>pdf-to-jpg</artifactId>
+            <artifactId>pdf</artifactId>
             <version>0.0.2</version>
         </dependency>
 

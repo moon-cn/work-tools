@@ -13,7 +13,7 @@
     <description>月神的工作百宝箱</description>
     <modules>
         <module>file-to-simple</module>
-        <module>pdf-to-jpg</module>
+        <module>pdf</module>
         <module>main</module>
         <module>base</module>
         <module>wallpaper</module>
