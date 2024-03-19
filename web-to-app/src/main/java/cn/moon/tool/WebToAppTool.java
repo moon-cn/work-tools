@@ -24,4 +24,9 @@ public class WebToAppTool implements WorkTool {
 
         wrapPanel.add(btn);
     }
+
+
+    private void gen(){
+
+    }
 }
