@@ -22,19 +22,13 @@ public class PDFToJPGTool implements WorkTool {
     }
 
     @Override
-    public void onToolBtnClick() {
-        JFrame frame = new JFrame("新窗体1");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-
+    public void onToolBtnClick(JPanel wrapPanel) {
         // 创建面板
-        JPanel panel = new JPanel();
 
         JButton button = new JButton("选择文件夹");
-        panel.add(button);
+        wrapPanel.add(button);
 
         button.addActionListener(new AbstractAction() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
@@ -67,10 +61,6 @@ public class PDFToJPGTool implements WorkTool {
             }
         });
 
-        frame.add(panel);
-        frame.setLocationRelativeTo(null);
-        frame.setSize(300, 150);
-        frame.setVisible(true);
     }
 
     /**

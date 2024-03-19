@@ -19,7 +19,7 @@ public class FileToSimpleTool implements WorkTool {
     }
 
     @Override
-    public void onToolBtnClick() {
+    public void onToolBtnClick(JPanel wrapPanel) {
         JFrame frame = new JFrame("新窗体1");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

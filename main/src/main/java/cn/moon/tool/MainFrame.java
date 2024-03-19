@@ -7,11 +7,12 @@ import cn.moon.WorkTool;
 import cn.moon.lang.json.JsonTool;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.*;
-import java.util.*;
+import java.io.PrintStream;
 import java.util.List;
+import java.util.*;
 
 public class MainFrame extends JFrame {
 
@@ -22,6 +23,12 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel menuPanel = new JPanel();
+        JPanel centerPanel = new JPanel();
+
+        centerPanel.setBorder(BorderFactory.createEtchedBorder());
+
+
+        centerPanel.add(new JLabel("请点击按钮"));
 
         for (WorkTool tool : scanTools()) {
             JButton btn = new JButton(tool.getName());
@@ -29,21 +36,30 @@ public class MainFrame extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     textArea.setText("-----------" + tool.getName() + "------------\n");
-                    tool.onToolBtnClick();
+                    centerPanel.removeAll();
+
+                    tool.onToolBtnClick(centerPanel);
+                    centerPanel.revalidate();
+                    centerPanel.repaint();
                 }
             });
 
             menuPanel.add(btn);
         }
         menuPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        getContentPane().add(menuPanel, BorderLayout.NORTH);
 
+
+        getContentPane().add(menuPanel, BorderLayout.NORTH);
+        getContentPane().add(centerPanel, BorderLayout.CENTER);
 
         // 显示
         {
             textArea = new JTextArea();
             textArea.setEditable(false);
-            getContentPane().add(new JScrollPane(textArea), BorderLayout.CENTER);
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(0, 300));
+            scrollPane.setBorder(BorderFactory.createTitledBorder("日志"));
+            getContentPane().add(scrollPane, BorderLayout.SOUTH);
 
             // 重定向System.out和System.err
             PrintStream printStream = new PrintStream(new ConsoleToUIStream(textArea));

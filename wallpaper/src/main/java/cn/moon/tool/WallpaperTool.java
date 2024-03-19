@@ -6,12 +6,9 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.HttpException;
 import cn.hutool.http.HttpUtil;
 import cn.moon.WorkTool;
-import com.sun.corba.se.spi.orbutil.threadpool.Work;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.File;
 
 @Slf4j
@@ -22,7 +19,7 @@ public class WallpaperTool implements WorkTool {
     }
 
     @Override
-    public void onToolBtnClick() {
+    public void onToolBtnClick(JPanel wrapPanel) {
         Integer i = RandomUtil.randomInt(1, 105);
         String url = "http://moon.soulsoup.cn/wallpaper/" + i + ".jpg";
 
