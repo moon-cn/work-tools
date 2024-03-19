@@ -19,14 +19,7 @@ public class FileToSimpleTool implements WorkTool {
     }
 
     @Override
-    public void onToolBtnClick(JPanel wrapPanel) {
-        JFrame frame = new JFrame("新窗体1");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-
-        // 创建面板
-        JPanel panel = new JPanel();
-
+    public void onToolBtnClick(JPanel panel) {
         JButton button = new JButton("选择文件夹");
         panel.add(button);
 
@@ -52,10 +45,6 @@ public class FileToSimpleTool implements WorkTool {
             }
         });
 
-        frame.add(panel);
-        frame.setLocationRelativeTo(null);
-        frame.setSize(300, 150);
-        frame.setVisible(true);
     }
 
 
