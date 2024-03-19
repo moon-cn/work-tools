@@ -1,11 +1,11 @@
-package cn.moon.tool.simple;
+package cn.moon.tool.pwd;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.moon.WorkTool;
 
 import javax.swing.*;
 
-public class RandomTool implements WorkTool {
+public class PwdTool implements WorkTool {
     @Override
     public String getName() {
         return "密码生成";

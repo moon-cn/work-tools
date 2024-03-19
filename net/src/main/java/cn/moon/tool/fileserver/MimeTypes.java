@@ -1,4 +1,4 @@
-package cn.moon.tool.staticfile;
+package cn.moon.tool.fileserver;
 
 import java.util.HashMap;
 import java.util.Map;

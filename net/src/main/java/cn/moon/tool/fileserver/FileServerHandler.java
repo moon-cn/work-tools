@@ -1,4 +1,4 @@
-package cn.moon.tool.staticfile;
+package cn.moon.tool.fileserver;
 
 import io.netty.buffer.*;
 import io.netty.channel.*;

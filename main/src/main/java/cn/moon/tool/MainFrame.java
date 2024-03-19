@@ -23,6 +23,7 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel menuPanel = new JPanel();
+        menuPanel.setPreferredSize(new Dimension(0, 100));
         JPanel centerPanel = new JPanel();
 
         centerPanel.setBorder(BorderFactory.createEtchedBorder());
