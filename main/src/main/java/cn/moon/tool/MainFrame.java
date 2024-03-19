@@ -58,7 +58,7 @@ public class MainFrame extends JFrame {
             textArea.setEditable(false);
             JScrollPane scrollPane = new JScrollPane(textArea);
             scrollPane.setPreferredSize(new Dimension(0, 300));
-            scrollPane.setBorder(BorderFactory.createTitledBorder("日志"));
+            scrollPane.setBorder(BorderFactory.createTitledBorder("控制台"));
             getContentPane().add(scrollPane, BorderLayout.SOUTH);
 
             // 重定向System.out和System.err
