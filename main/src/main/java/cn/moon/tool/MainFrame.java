@@ -7,7 +7,6 @@ import cn.moon.WorkTool;
 import cn.moon.lang.json.JsonTool;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.PrintStream;
@@ -54,21 +53,24 @@ public class MainFrame extends JFrame {
         getContentPane().add(centerPanel, BorderLayout.CENTER);
 
         // 显示
-        {
-            textArea = new JTextArea();
-            textArea.setEditable(false);
-            JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setPreferredSize(new Dimension(0, 300));
-            scrollPane.setBorder(BorderFactory.createTitledBorder("控制台"));
-            getContentPane().add(scrollPane, BorderLayout.SOUTH);
+        initFooterConsole();
 
-            // 重定向System.out和System.err
-            PrintStream printStream = new PrintStream(new ConsoleToUIStream(textArea));
-            System.setOut(printStream);
-            System.setErr(printStream);
-        }
 
-        this.welcome();
+        this.showWelcome();
+    }
+
+    private void initFooterConsole() {
+        textArea = new JTextArea();
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(0, 300));
+        scrollPane.setBorder(BorderFactory.createTitledBorder("控制台"));
+        getContentPane().add(scrollPane, BorderLayout.SOUTH);
+
+        // 重定向System.out和System.err
+        PrintStream printStream = new PrintStream(new ConsoleToUIStream(textArea));
+        System.setOut(printStream);
+        System.setErr(printStream);
     }
 
     private java.util.List<WorkTool> scanTools() {
@@ -88,7 +90,7 @@ public class MainFrame extends JFrame {
         return list;
     }
 
-    private void welcome() {
+    private void showWelcome() {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {

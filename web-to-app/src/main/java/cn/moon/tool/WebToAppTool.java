@@ -4,6 +4,8 @@ import cn.moon.WorkTool;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.io.*;
 
 @Slf4j
 public class WebToAppTool implements WorkTool {
@@ -14,19 +16,57 @@ public class WebToAppTool implements WorkTool {
 
     @Override
     public void onToolBtnClick(JPanel wrapPanel) {
-        log.info("支持转Android， windows应用");
-
         JTextArea text = new JTextArea("https://");
         text.setColumns(50);
         wrapPanel.add(text);
 
-        JButton btn = new JButton("生成");
+        JButton btn = new JButton("生成 exe");
+
+        btn.addActionListener(this::genExe);
 
         wrapPanel.add(btn);
+
+        log.info("需预先安装 dotnet");
+        log.info("下载地址：https://dotnet.microsoft.com/zh-cn/download/dotnet?cid=getdotnetcorecli");
+    }
+
+    private void genExe(ActionEvent actionEvent) {
+        File file = new File("temp","dotnet");
+        if(!file.exists()){
+            file.mkdirs();
+        }
+
+        try {
+            exec( "dotnet new winforms", file);
+            exec( "dotnet build", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void exec(String command, File file) throws IOException {
+        Process process = Runtime.getRuntime().exec(command, null, file);
+
+// 获取进程的输入流
+        InputStream inputStream = process.getInputStream();
+
+        // 创建一个读取器来读取输入流
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+
+        // 创建一个缓冲区读取字符
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+        // 读取输出
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            System.out.println(line);
+        }
+
+        // 关闭相关的流
+        bufferedReader.close();
+        inputStreamReader.close();
+        inputStream.close();
     }
 
 
-    private void gen(){
-
-    }
 }
