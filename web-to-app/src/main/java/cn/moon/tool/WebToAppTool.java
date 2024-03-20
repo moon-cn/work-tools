@@ -10,12 +10,11 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * https://learn.microsoft.com/zh-cn/dotnet/core/deploying/single-file/overview?tabs=cli
- *
- *      <PublishSingleFile>true</PublishSingleFile>
- *      <SelfContained>false</SelfContained>
- *      <DebugType>embedded</DebugType>
- *     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
- *
+
+    <PublishSingleFile>true</PublishSingleFile>
+     <SelfContained>false</SelfContained>
+     <DebugType>embedded</DebugType>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
  *
 
  using System;
