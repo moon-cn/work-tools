@@ -43,6 +43,9 @@ import java.nio.charset.StandardCharsets;
  }
  }
 
+ 新思路： 使用C# 写一个浏览器， 将URL 放到资源 文件中，如xxx.bitmap， 生成exe。 然后用resource hanker等工具，动态修改xxx,bitmap的内容
+
+
  *
  */
 @Slf4j
@@ -54,7 +57,7 @@ public class WebToAppTool implements WorkTool {
 
     @Override
     public void onToolBtnClick(JPanel wrapPanel) {
-        JTextArea text = new JTextArea("https://");
+        JTextArea text = new JTextArea("https://baidu.com");
         text.setColumns(50);
         wrapPanel.add(text);
 
