@@ -10,43 +10,38 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * https://learn.microsoft.com/zh-cn/dotnet/core/deploying/single-file/overview?tabs=cli
-
-    <PublishSingleFile>true</PublishSingleFile>
-     <SelfContained>false</SelfContained>
-     <DebugType>embedded</DebugType>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
  *
-
- using System;
- using System.Windows.Forms;
-
- namespace WebBrowserExample
- {
- public partial class MainForm : Form
- {
- private WebBrowser webBrowser;
-
- public MainForm()
- {
- InitializeComponent();
- }
-
- private void MainForm_Load(object sender, EventArgs e)
- {
- webBrowser = new WebBrowser();
-
- webBrowser.Dock = DockStyle.Fill;
-
- Controls.Add(webBrowser);
- webBrowser.Navigate("https://www.example.com");
- }
- }
- }
-
- 新思路： 使用C# 写一个浏览器， 将URL 放到资源 文件中，如xxx.bitmap， 生成exe。 然后用resource hanker等工具，动态修改xxx,bitmap的内容
-
-
- *
+ * <PublishSingleFile>true</PublishSingleFile>
+ * <SelfContained>false</SelfContained>
+ * <DebugType>embedded</DebugType>
+ * <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+ * <p>
+ * <p>
+ * using System;
+ * using System.Windows.Forms;
+ * <p>
+ * namespace WebBrowserExample
+ * {
+ * public partial class MainForm : Form
+ * {
+ * private WebBrowser webBrowser;
+ * <p>
+ * public MainForm()
+ * {
+ * InitializeComponent();
+ * }
+ * <p>
+ * private void MainForm_Load(object sender, EventArgs e)
+ * {
+ * webBrowser = new WebBrowser();
+ * <p>
+ * webBrowser.Dock = DockStyle.Fill;
+ * <p>
+ * Controls.Add(webBrowser);
+ * webBrowser.Navigate("https://www.example.com");
+ * }
+ * }
+ * }
  */
 @Slf4j
 public class WebToAppTool implements WorkTool {
@@ -57,30 +52,32 @@ public class WebToAppTool implements WorkTool {
 
     @Override
     public void onToolBtnClick(JPanel wrapPanel) {
-        JTextArea text = new JTextArea("https://baidu.com");
+        JTextArea text = new JTextArea("https://");
         text.setColumns(50);
         wrapPanel.add(text);
 
-        JButton btn = new JButton("生成 exe");
+        JButton btn = new JButton("生成 exe（多文件，C#语言）");
+        JButton btn2 = new JButton("生成 exe（单文件,C语言）");
 
         btn.addActionListener(this::genExe);
 
         wrapPanel.add(btn);
+        wrapPanel.add(btn2);
 
         log.info("需预先安装 dotnet");
         log.info("下载地址：https://dotnet.microsoft.com/zh-cn/download/dotnet?cid=getdotnetcorecli");
     }
 
     private void genExe(ActionEvent actionEvent) {
-        File file = new File("temp","dotnet");
-        if(!file.exists()){
+        File file = new File("temp", "dotnet");
+        if (!file.exists()) {
             file.mkdirs();
         }
 
         try {
-        //    exec( "dotnet new winforms ", file);
+            //    exec( "dotnet new winforms ", file);
             Thread.sleep(100);
-            exec( "dotnet publish --configuration Release  ", file);
+            exec("dotnet publish --configuration Release  ", file);
         } catch (Exception e) {
             e.printStackTrace();
         }
