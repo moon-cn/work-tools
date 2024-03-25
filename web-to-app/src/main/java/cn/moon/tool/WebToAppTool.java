@@ -1,111 +1,142 @@
 package cn.moon.tool;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.StreamProgress;
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.RuntimeUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpUtil;
 import cn.moon.WorkTool;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
-/**
- * https://learn.microsoft.com/zh-cn/dotnet/core/deploying/single-file/overview?tabs=cli
- *
- * <PublishSingleFile>true</PublishSingleFile>
- * <SelfContained>false</SelfContained>
- * <DebugType>embedded</DebugType>
- * <RuntimeIdentifier>win-x64</RuntimeIdentifier>
- * <p>
- * <p>
- * using System;
- * using System.Windows.Forms;
- * <p>
- * namespace WebBrowserExample
- * {
- * public partial class MainForm : Form
- * {
- * private WebBrowser webBrowser;
- * <p>
- * public MainForm()
- * {
- * InitializeComponent();
- * }
- * <p>
- * private void MainForm_Load(object sender, EventArgs e)
- * {
- * webBrowser = new WebBrowser();
- * <p>
- * webBrowser.Dock = DockStyle.Fill;
- * <p>
- * Controls.Add(webBrowser);
- * webBrowser.Navigate("https://www.example.com");
- * }
- * }
- * }
- */
+
 @Slf4j
 public class WebToAppTool implements WorkTool {
+
+    public static final String URL = "https://github.com/moon-cn/template-web-to-exe/archive/refs/tags/v0.0.1.zip";
+
     @Override
     public String getName() {
-        return "网页转应用";
+        return "网页转 EXE";
     }
 
+    JTextArea urlTextArea;
     @Override
     public void onToolBtnClick(JPanel wrapPanel) {
-        JTextArea text = new JTextArea("https://");
-        text.setColumns(50);
-        wrapPanel.add(text);
+         urlTextArea = new JTextArea("https://www.douban.com");
+        urlTextArea.setColumns(50);
+        wrapPanel.add(urlTextArea);
 
-        JButton btn = new JButton("生成 exe（多文件，C#语言）");
         JButton btn2 = new JButton("生成 exe（单文件,C语言）");
 
-        btn.addActionListener(this::genExe);
+        btn2.addActionListener(this::genExe2);
 
-        wrapPanel.add(btn);
         wrapPanel.add(btn2);
 
-        log.info("需预先安装 dotnet");
-        log.info("下载地址：https://dotnet.microsoft.com/zh-cn/download/dotnet?cid=getdotnetcorecli");
     }
 
-    private void genExe(ActionEvent actionEvent) {
-        File file = new File("temp", "dotnet");
+    @SneakyThrows
+    private void genExe2(ActionEvent actionEvent) {
+        File dir = new File("temp");
+        File file = new File(dir, "webview.zip");
+        File unzipDir = new File(dir, FilenameUtils.getBaseName(file.getName()));
+
+
+
+        if(dir.exists()){
+            dir.delete();
+        }
+
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+
         if (!file.exists()) {
-            file.mkdirs();
+            System.out.println("下载模板到文件夹" + URL);
+            HttpUtil.download(URL, Files.newOutputStream(file.toPath()), true);
+            log.info("下载模板完成");
+
+            ZipUtilx.unzip(file,unzipDir);
+            log.info("解压完成");
+
+            Thread.sleep(1000);
         }
 
-        try {
-            //    exec( "dotnet new winforms ", file);
-            Thread.sleep(100);
-            exec("dotnet publish --configuration Release  ", file);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        File root = unzipDir.listFiles()[0];
+
+        File src = new File(root.getParent(), "src");
+        root.renameTo(src);
+
+
+
+
+
+        Assert.state(src.exists(), "目录不存在");
+
+        System.out.println("源码目录 " + src.getAbsoluteFile());
+
+
+
+
+
+
+
+        Thread.sleep(1000);
+
+        File main = new File(src, "main.cc");
+        String code = FileUtil.readUtf8String(main);
+        code = code.replace("https://baidu.com", urlTextArea.getText());
+        System.out.println(code);
+        FileUtil.writeUtf8String(code,main);
+
+
+        String command = "g++ main.cc -std=c++14 -mwindows -Ilibs/webview -Ilibs/webview2/build/native/include -ladvapi32 -lole32 -lshell32 -lshlwapi -luser32 -lversion -o app.exe";
+
+        command = "cmd /c " + command;
+
+
+        System.out.println("编译：" + command);
+
+        String[] cmds = StrUtil.splitToArray(command, " ");
+
+        exec(src.getAbsoluteFile(), cmds);
+
+        System.out.println("编译完成");
+
+        System.out.println("文件地址为" + new File(src, "app.exe").getAbsoluteFile());
+
     }
 
-    private static void exec(String command, File file) throws IOException {
-        Process process = Runtime.getRuntime().exec(command, null, file);
 
-// 获取进程的输入流
-        InputStream inputStream = process.getInputStream();
+    private static void exec( File file,String... command) throws IOException {
+       // Process process = Runtime.getRuntime().exec(command, null, file);
 
-        // 创建一个读取器来读取输入流
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "gbk");
+//        ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c ",command);
+//        Process process = processBuilder.redirectErrorStream(true)
+//                .directory(file)
+//                .start();
 
-        // 创建一个缓冲区读取字符
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        Process process = RuntimeUtil.exec(null, file, command);
 
-        // 读取输出
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            System.out.println(line);
-        }
+        String result = RuntimeUtil.getResult(process);
+        System.out.println(result);
+        String errorResult = RuntimeUtil.getErrorResult(process);
+        System.out.println(errorResult);
 
-        // 关闭相关的流
-        bufferedReader.close();
-        inputStreamReader.close();
-        inputStream.close();
+
     }
 
+    public static void main(String[] args) {
+
+    }
 
 }
