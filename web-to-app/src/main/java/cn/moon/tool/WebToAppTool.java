@@ -48,16 +48,9 @@ public class WebToAppTool implements WorkTool {
         File file = new File(dir, "webview.zip");
         File unzipDir = new File(dir, FilenameUtils.getBaseName(file.getName()));
 
-
-
-        if(dir.exists()){
-            dir.delete();
-        }
-
         if (!dir.exists()) {
             dir.mkdirs();
         }
-
 
         if (!file.exists()) {
             System.out.println("下载模板到文件夹" + URL);
@@ -71,26 +64,11 @@ public class WebToAppTool implements WorkTool {
         }
 
 
-        File root = unzipDir.listFiles()[0];
-
-        File src = new File(root.getParent(), "src");
-        root.renameTo(src);
-
-
-
-
+        File src = unzipDir.listFiles()[0];
 
         Assert.state(src.exists(), "目录不存在");
-
         System.out.println("源码目录 " + src.getAbsoluteFile());
 
-
-
-
-
-
-
-        Thread.sleep(1000);
 
         File main = new File(src, "main.cc");
         String code = FileUtil.readUtf8String(main);
@@ -100,43 +78,23 @@ public class WebToAppTool implements WorkTool {
 
 
         String command = "g++ main.cc -std=c++14 -mwindows -Ilibs/webview -Ilibs/webview2/build/native/include -ladvapi32 -lole32 -lshell32 -lshlwapi -luser32 -lversion -o app.exe";
-
         command = "cmd /c " + command;
 
-
         System.out.println("编译：" + command);
-
-        String[] cmds = StrUtil.splitToArray(command, " ");
-
-        exec(src.getAbsoluteFile(), cmds);
+        exec(src.getAbsoluteFile(), StrUtil.splitToArray(command, " "));
 
         System.out.println("编译完成");
-
         System.out.println("文件地址为" + new File(src, "app.exe").getAbsoluteFile());
-
     }
 
 
     private static void exec( File file,String... command) throws IOException {
-       // Process process = Runtime.getRuntime().exec(command, null, file);
-
-//        ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c ",command);
-//        Process process = processBuilder.redirectErrorStream(true)
-//                .directory(file)
-//                .start();
-
         Process process = RuntimeUtil.exec(null, file, command);
 
         String result = RuntimeUtil.getResult(process);
         System.out.println(result);
         String errorResult = RuntimeUtil.getErrorResult(process);
         System.out.println(errorResult);
-
-
-    }
-
-    public static void main(String[] args) {
-
     }
 
 }
