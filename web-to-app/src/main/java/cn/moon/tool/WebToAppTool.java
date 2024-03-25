@@ -40,6 +40,7 @@ public class WebToAppTool implements WorkTool {
 
         wrapPanel.add(btn2);
 
+        System.out.println("需提前安装好c++编译环境， MinGW-w64");
     }
 
     @SneakyThrows
